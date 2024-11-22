@@ -6,7 +6,13 @@ const { sequelize } = require('./models')
 // controllers
 const { createItinerary, getItinerary } = require('./controllers/dataController')
 
-const { getFlights, getHotels, getSites, getFlightsByOriginAndDestination, validateHotelsQueryParams, validateSitesQueryParams } = require('./controllers/itineraryController')
+const {
+    getFlights,
+    getHotels,
+    getSites,
+    getFlightsByOriginAndDestination,
+    validateHotelsQueryParams,
+    validateSitesQueryParams } = require('./controllers/itineraryController')
 
 
 // middelwares
@@ -24,7 +30,7 @@ app.get('/data/hotels', getHotels)
 app.get('/data/sites', getSites)
 
 // get validate flights of origin and destination
-app.get('/data/getFlightsByOriginAndDestination', getFlightsByOriginAndDestination) // http://localhost:3000/data/getFlightsByOriginAndDestination?origin=raipur&destination=bhuj
+app.get('/flights/search', getFlightsByOriginAndDestination) // http://localhost:3000/flights/search?origin=raipur&destination=bhuj
 
 // get validate hotels by location details
 app.get('/hotel/search', validateHotelsQueryParams) // http://localhost:3000/hotel/search?location=Mandarmoni

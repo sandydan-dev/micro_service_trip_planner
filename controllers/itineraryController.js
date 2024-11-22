@@ -1,15 +1,7 @@
-require('dotenv').config()
-const axios = require('axios')
-
+const axiosInstance = require('../lib/axios.lib')
 const { validateFlightQueryParams, getHotelsByLocation, getSitesByLocation } = require('../validation/validate')
 
-const axiosInstance = axios.create({
-    baseURL: process.env.MICROSERVICE_BASE_URL,
-    headers: {
-        CLIENT_KEY: process.env.CLIENT_KEY,
-        CLIENT_SECRET: process.env.CLIENT_SECRET
-    }
-})
+
 
 
 
@@ -124,7 +116,7 @@ const validateSitesQueryParams = async (req, res) => {
     // input validate function
     const errors = getSitesByLocation(req.query)
     if (errors.length > 0) {
-        return res.status(400).json({ message: 'Invalid input for location', errors })
+        return res.status(400).json({ message: errors })
     }
 
     try {
@@ -133,12 +125,12 @@ const validateSitesQueryParams = async (req, res) => {
 
         // get location data from database suing query search with axiosInstance
         const response = await axiosInstance.get(`/sites/search?location=${location}`)
-        res.status(200).json(response.data)
+        res.json(response.data)
 
 
     } catch (error) {
         console.log(error)
-        return res.status(500).json({ message: "Failed to validate sites query parameters" })
+        res.status(500).json({ message: "Failed to validate sites query parameters" })
     }
 }
 
@@ -171,3 +163,7 @@ module.exports = {
     validateHotelsQueryParams,
     validateSitesQueryParams
 }
+
+
+
+
